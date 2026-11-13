@@ -1,0 +1,11 @@
+[Unit]
+Description=Verifica o feed do FitGirl a cada 20 minutos
+
+[Timer]
+OnBootSec=3min
+OnUnitActiveSec=20min
+AccuracySec=1min
+Unit=fitgirl.service
+
+[Install]
+WantedBy=timers.target

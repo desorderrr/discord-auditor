@@ -1,0 +1,58 @@
+name: Notificar Discord
+
+on:
+  release:
+    types: [published]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publicar no Discord
+        env:
+          WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          TAG: ${{ github.event.release.tag_name }}
+          NAME: ${{ github.event.release.name }}
+          BODY: ${{ github.event.release.body }}
+          URL: ${{ github.event.release.html_url }}
+          AUTHOR: ${{ github.event.release.author.login }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${WEBHOOK:-}" ]; then
+            echo "::error::Falta o secret DISCORD_WEBHOOK no repositório."
+            exit 1
+          fi
+
+          TAG="${TAG:-teste}"
+          NAME="${NAME:-Release $TAG}"
+          URL="${URL:-https://github.com/$REPO/releases}"
+          AUTHOR="${AUTHOR:-desorderrr}"
+          BODY="${BODY:-Teste de integração: GitHub → Discord.}"
+
+          jq -n \
+            --arg title "$NAME ($TAG)" \
+            --arg body "$BODY" \
+            --arg url "$URL" \
+            --arg repo "$REPO" \
+            --arg author "$AUTHOR" \
+            '{
+              username: "GitHub",
+              embeds: [{
+                title: $title,
+                url: $url,
+                color: 5814783,
+                author: { name: $repo },
+                description: ($body[0:1500] + (if ($body | length) > 1500 then "\n…" else "" end)),
+                footer: { text: ("por " + $author) },
+                timestamp: (now | todate)
+              }]
+            }' > payload.json
+
+          curl -sS -X POST -H "Content-Type: application/json" --data @payload.json "$WEBHOOK"
+          echo "Mensagem enviada."

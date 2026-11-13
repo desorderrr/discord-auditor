@@ -114,3 +114,53 @@ sudo systemctl restart discord-auditor
 ```
 
 Se a versão nova mudar o `package.json`, o `npm install` trata das dependências.
+
+## Notificações automáticas (FitGirl Repacks)
+
+O script `src/scripts/fitgirl.js` lê o feed do FitGirl e publica as novidades no
+webhook configurado. A primeira execução só grava o estado (não despeja o arquivo
+no canal); depois publica apenas o que for novo.
+
+**1. Criar o webhook** — no Discord: canal `#jogos-grátis` → editar → Integrações →
+Webhooks → Novo webhook. Copia a URL.
+
+**2. Guardar a URL** (no Pi):
+
+```bash
+cd ~/discord-auditor
+nano .env   # acrescenta: FITGIRL_WEBHOOK_URL=https://discord.com/api/webhooks/...
+```
+
+**3. Testar** (não publica nada, só mostra):
+
+```bash
+node src/scripts/fitgirl.js --dry-run
+```
+
+**4. Agendar a cada 20 minutos:**
+
+```bash
+sudo cp deploy/fitgirl.service deploy/fitgirl.timer /etc/systemd/system/
+sudo systemctl daemon-reload
+sudo systemctl enable --now fitgirl.timer
+systemctl list-timers fitgirl.timer
+```
+
+Ver o que aconteceu na última execução:
+
+```bash
+journalctl -u fitgirl.service -n 30 --no-pager
+```
+
+## Notificações do GitHub
+
+As releases do repositório são anunciadas por GitHub Actions
+(`.github/workflows/notify-release.yml`). Basta definir o secret:
+
+```bash
+gh secret set DISCORD_WEBHOOK --body "https://discord.com/api/webhooks/..."
+```
+
+A partir daí, cada release publicada aparece no canal. Para testar sem criar
+uma release: **Actions → Notificar Discord → Run workflow**.
+

@@ -1,0 +1,11 @@
+[Unit]
+Description=FitGirl Repacks → Discord
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=pi
+WorkingDirectory=/home/pi/discord-auditor
+ExecStart=/usr/bin/env node src/scripts/fitgirl.js
+Environment=NODE_ENV=production
