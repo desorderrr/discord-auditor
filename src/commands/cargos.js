@@ -4,7 +4,7 @@ import {
   PermissionFlagsBits,
   SlashCommandBuilder,
 } from 'discord.js';
-import { buildPingComponents, resolvePingRoles } from '../lib/pingRoles.js';
+import { buildPingComponents, resolvePingRoles, PING_GAMES } from '../lib/pingRoles.js';
 
 export default {
   data: new SlashCommandBuilder()
@@ -41,7 +41,7 @@ export default {
       guild.channels.cache.find((c) => c.name === 'boas-vindas') ??
       interaction.channel;
 
-    const missing = 9 - resolved.length;
+    const missing = PING_GAMES.length - resolved.length;
 
     const embed = new EmbedBuilder()
       .setTitle('🎮 Cargos de ping')

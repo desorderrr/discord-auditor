@@ -88,6 +88,10 @@ export const blueprint = {
           name: 'minecraft',
           topic: 'Minecraft — servidor, construções e projetos. Usa @Minecraft para avisar.',
         },
+        {
+          name: 'gta-vi',
+          topic: 'Grand Theft Auto VI — combina partidas e heists. Usa @GTA VI para avisar.',
+        },
       ],
     },
     {
@@ -215,6 +219,12 @@ export const blueprint = {
     {
       name: '⛏️ Minecraft',
       color: 0x8bc34a,
+      mentionable: true,
+      permissions: [],
+    },
+    {
+      name: '🌴 GTA VI',
+      color: 0xe91e63,
       mentionable: true,
       permissions: [],
     },

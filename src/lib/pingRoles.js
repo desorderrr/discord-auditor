@@ -18,6 +18,7 @@ export const PING_GAMES = [
   { roleName: '🚨 Ready or Not', label: 'Ready or Not', emoji: '🚨' },
   { roleName: '🎯 EFT', label: 'Escape from Tarkov', emoji: '🎯' },
   { roleName: '⛏️ Minecraft', label: 'Minecraft', emoji: '⛏️' },
+  { roleName: '🌴 GTA VI', label: 'GTA VI', emoji: '🌴' },
   { roleName: '🔔 Notícias', label: 'Notícias', emoji: '🔔' },
 ];
 
