@@ -1,0 +1,27 @@
+{
+  "name": "discord-auditor",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Bot de auditoria e correção de servidores Discord (segurança, canais, AutoMod e cargos).",
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "setup": "node src/scripts/setup.js",
+    "deploy": "node src/scripts/deploy-commands.js",
+    "audit": "node src/scripts/cli-audit.js",
+    "self-test": "node src/scripts/self-test.js",
+    "invite": "node src/scripts/invite-url.js",
+    "whoami": "node src/scripts/whoami.js",
+    "blueprint": "node src/scripts/blueprint.js",
+    "pack": "node src/scripts/pack.js",
+    "inspect": "node src/scripts/inspect.js",
+    "test": "node test/mock-audit.mjs"
+  },
+  "dependencies": {
+    "discord.js": "^14.16.3",
+    "dotenv": "^16.4.5"
+  }
+}
