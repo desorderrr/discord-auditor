@@ -50,21 +50,11 @@ export const blueprint = {
           from: ['geral'],
           topic: 'Conversa geral. Tudo o que não tem canal próprio.',
         },
-        {
-          name: 'media',
-          from: ['memes', 'files', 'music'],
-          topic: 'Memes, clips, música e ficheiros.',
-        },
       ],
     },
     {
       name: '🎮 JOGOS',
       channels: [
-        {
-          name: 'jogos',
-          from: ['jogos'],
-          topic: 'Conversa geral de jogos. Para um jogo específico, usa o canal dele abaixo.',
-        },
         {
           name: 'cs2',
           topic: 'Counter-Strike 2 — combina partidas. Usa @CS2 para avisar quem joga.',
@@ -147,8 +137,12 @@ export const blueprint = {
     },
   ],
 
-  /** Canais que não encaixam em lado nenhum e devem ficar arquivados. */
-  archive: ['software', 'airsoft'],
+  /**
+   * Canais que não encaixam em lado nenhum e devem ficar arquivados.
+   * `jogos`, `escape-from-tarkov` e `media` entraram aqui por estarem
+   * inativos há mais de 90 dias — o histórico fica preservado no Arquivo.
+   */
+  archive: ['software', 'airsoft', 'jogos', 'escape-from-tarkov', 'media'],
 
   /** Canais a apagar (substituídos por outro). */
   remove: ['cargos'],
