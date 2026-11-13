@@ -1,4 +1,4 @@
-import { Client, Events, GatewayIntentBits, MessageFlags } from 'discord.js';
+import { Client, Events, GatewayIntentBits, MessageFlags, Options } from 'discord.js';
 import { config, assertConfig, buildIntents } from './config.js';
 import auditCommand from './commands/audit.js';
 import fixCommand from './commands/fix.js';
@@ -22,6 +22,24 @@ const commands = new Map([
 ]);
 
 let runningClient = null;
+
+/**
+ * Caches mínimos: o bot não lê mensagens nem presenças, por isso não vale a pena
+ * guardá-las. Reduz bastante o consumo (importante em planos de 100 MB).
+ */
+function makeClient(intents) {
+  return new Client({
+    intents,
+    makeCache: Options.cacheWithLimits({
+      ...Options.DefaultMakeCacheSettings,
+      MessageManager: 0,
+      PresenceManager: 0,
+      ReactionManager: 0,
+      GuildStickerManager: 0,
+      GuildScheduledEventManager: 0,
+    }),
+  });
+}
 
 function attachHandlers(client) {
   client.once(Events.ClientReady, async (readyClient) => {
@@ -123,7 +141,7 @@ function attachHandlers(client) {
 
 /** Liga com os intents pedidos; se o Discord recusar, tenta sem "Server Members". */
 async function start() {
-  const client = new Client({ intents: buildIntents() });
+  const client = makeClient(buildIntents());
   attachHandlers(client);
 
   try {
@@ -140,7 +158,7 @@ async function start() {
   );
   client.destroy();
 
-  const fallback = new Client({ intents: buildIntents({ members: false }) });
+  const fallback = makeClient(buildIntents({ members: false }));
   attachHandlers(fallback);
   await fallback.login(config.token);
   runningClient = fallback;
