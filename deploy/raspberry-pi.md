@@ -5,13 +5,38 @@ O bot usa ~80 MB de RAM — não incomoda o AdGuard.
 
 ## 1. Instalar Node 20+
 
+Vê primeiro a arquitetura:
+
+```bash
+uname -m
+```
+
+### aarch64 (64 bits)
+
 ```bash
 sudo apt update
 sudo apt install -y git curl
-curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+curl -fsSL https://deb.nodesource.com/setup_22.x | sudo -E bash -
 sudo apt install -y nodejs
 node --version
 ```
+
+### armv7l (32 bits)
+
+O NodeSource já não publica pacotes para armhf, e o Node 24+ deixou de ter binários
+armv7l. Usa o último LTS com suporte a 32 bits (Node 22):
+
+```bash
+sudo apt update
+sudo apt install -y git curl
+cd /tmp
+curl -fsSLO https://nodejs.org/dist/v22.23.5/node-v22.23.5-linux-armv7l.tar.xz
+sudo tar -xJf node-v22.23.5-linux-armv7l.tar.xz -C /usr/local --strip-components=1
+node --version   # v22.x
+```
+
+> Para atualizar mais tarde: repete o download com a versão nova. Só existem versões
+> armv7l até à linha 22; acima disso é preciso um sistema operativo de 64 bits.
 
 ## 2. Obter o projeto
 
