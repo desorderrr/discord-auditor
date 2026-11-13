@@ -54,8 +54,6 @@ jobs:
               }]
             }' > payload.json
 
-          cat payload.json
-
-          curl -sS -v -X POST -H "Content-Type: application/json" \
+          curl -sS -X POST -H "Content-Type: application/json" \
             --data-binary @payload.json "$WEBHOOK" \
-            -w '\nHTTP %{http_code}\n' 2>&1
+            -w '\nHTTP %{http_code}\n'
