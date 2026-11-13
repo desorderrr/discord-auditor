@@ -2,6 +2,9 @@
  * Cria o zip de distribuição com a versão do package.json no nome:
  *   discord-auditor-v1.0.0.zip
  *
+ * Usa o tar do Windows (bsdtar) em vez do Compress-Archive, porque este
+ * último grava os caminhos com "\" e o zip fica inválido em Linux (Discloud).
+ *
  *   npm run pack
  */
 import { existsSync, readdirSync, readFileSync, rmSync } from 'node:fs';
@@ -28,9 +31,11 @@ if (!items.length) {
 
 if (existsSync(outPath)) rmSync(outPath);
 
-const list = items.map((item) => `'${path.join(root, item).replace(/'/g, "''")}'`).join(',');
-const command = `Compress-Archive -Path @(${list}) -DestinationPath '${outPath}' -Force`;
+// -a deixa o bsdtar escolher o formato pela extensão (.zip)
+execFileSync('tar', ['-a', '-c', '-f', outPath, ...items], {
+  cwd: root,
+  stdio: 'inherit',
+});
 
-execFileSync('powershell', ['-NoProfile', '-Command', command], { stdio: 'inherit' });
-
-console.log(`✅ ${outName} (${Math.round(readFileSync(outPath).length / 1024)} KB)`);
+const size = Math.round(readFileSync(outPath).length / 1024);
+console.log(`✅ ${outName} (${size} KB)`);
