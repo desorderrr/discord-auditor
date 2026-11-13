@@ -1,5 +1,8 @@
 # 🩺 discord-auditor
 
+[![CI](https://github.com/desorderrr/discord-auditor/actions/workflows/ci.yml/badge.svg)](https://github.com/desorderrr/discord-auditor/actions/workflows/ci.yml)
+[![Licença: MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-blue.svg)](LICENSE)
+
 Bot que **analisa o teu servidor Discord**, dá uma pontuação de saúde e **corrige automaticamente** os problemas que encontrar — com pré-visualização antes de tocar em nada.
 
 Feito com Node.js 20+ e discord.js v14.
