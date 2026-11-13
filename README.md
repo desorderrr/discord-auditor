@@ -188,6 +188,12 @@ Para acrescentar um jogo: adiciona o cargo em `src/blueprint/target.js` **e** a 
 npm run blueprint -- --apply
 ```
 
+## Alojar num Raspberry Pi (recomendado)
+
+O bot usa ~80 MB de RAM, por isso convive bem com outros serviços (ex.: AdGuard Home).
+Guia completo: **[deploy/raspberry-pi.md](deploy/raspberry-pi.md)** — inclui serviço `systemd`
+com reinício automático.
+
 ## Alojar na Discloud
 
 `discloud.config` já está configurado (`MAIN=src/index.js`, `RAM=128`, `VERSION=latest`).
